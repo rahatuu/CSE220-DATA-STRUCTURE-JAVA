@@ -1,8 +1,20 @@
 public class Task5 {
     public static int sumDist(Node head, Integer[] distArr) {
-        // To Do
-        return 0; // Remove this line.
-    }
+    int sum = 0;  
+    int count = 0;
+    Node temp = head;
+    while (temp != null) {
+      count++;
+      temp = temp.next;}
+    for (int i = 0; i < distArr.length; i++) {
+      if (distArr[i] >= count) 
+        continue;
+      temp = head; 
+      for (int j = 0; j < distArr[i]; j++) {
+        temp = temp.next;}
+      sum += (int)temp.elem;}
+    return sum;}
+
 
     public static void main(String[] args) {
         System.out.println("=========Test Case 1=============");
