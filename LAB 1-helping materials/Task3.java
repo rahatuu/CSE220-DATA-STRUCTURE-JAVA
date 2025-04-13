@@ -1,18 +1,25 @@
 // Task01: check_similar
 public class Task3 {
 
-    //Two heads are being passed onto this method
-    //and a String is expected as return
     public static String checkSimilar( Node building1, Node building2 ){
-        
-        //You're not suppose to create any new Linked List for this task
-        
-        //TODO
-
-        //Once you're ready to return the String delete the
-        //following line
-        return null;
-    }
+      Node head1=building1; Node tail1=building1; int count1=0;
+      Node head2=building2; Node tail2=building2; int count2=0;
+      while(tail1.next!=null){
+        count1++;tail1=tail1.next;}
+      count1++;
+      while(tail2.next!=null){
+        count2++;tail2=tail2.next;}
+      count2++;
+      if(count1!=count2){
+        return "Not Similar";}
+      else{
+        for(int i=0;i<count1;i++){
+          if(!head1.elem.equals(head2.elem)){
+             return "Not Similar";}
+          else{
+            head1=head1.next;
+            head2=head2.next;}}
+        return "Similar";}}
 
     //NOTE: if you find any issue with the driver code please inform AIB
     //DO NOT TOUCH THE DRIVER CODE BELOW
