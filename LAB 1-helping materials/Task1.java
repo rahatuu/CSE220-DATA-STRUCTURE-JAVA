@@ -1,14 +1,19 @@
 //Task 01: Merge Sorted Array
 class Task1{
 
-    //Complete this method so that it gives the Expected Output
-    public static Integer[] mergeSortedArray( Integer[] arr1, Integer[] arr2 ){
-
-        //TO DO
-        //DELETE the following return statement when you're ready to return the newly Created array
-        return null;
-
-    }
+    public static Integer[] mergeSortedArray(Integer[] arr1, Integer[] arr2) {
+    Integer[] mergedSArr = new Integer[arr1.length + arr2.length];
+    for(int i=0;i<arr1.length;i++){
+      mergedSArr[i]=arr1[i];}
+    for(int i=arr1.length,j=0;i<mergedSArr.length;i++,j++){
+      mergedSArr[i]=arr2[j];}
+    for (int i = 0; i < mergedSArr.length - 1; i++) {
+      for (int j = 0; j < mergedSArr.length - 1 - i; j++) { 
+        if (mergedSArr[j] > mergedSArr[j + 1]) { 
+          int hold = mergedSArr[j];
+          mergedSArr[j] = mergedSArr[j + 1];
+          mergedSArr[j + 1] = hold;}}}
+    return mergedSArr;}
 
     //DO NOT CHANGE ANY DRIVER CODE BELOW THIS LINE
     public static void main(String[] args){
