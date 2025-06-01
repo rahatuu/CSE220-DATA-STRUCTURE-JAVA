@@ -1,1 +1,311 @@
+//Task01
+public class MinHeap {
+  private int[] arr;
+  private int size;
+
+  public MinHeap(int capacity) {
+    arr = new int[capacity + 1];
+    size = 0;}
+
+  public void insert(int value) {
+    size++;
+    arr[size] = value;
+    swim(size);}
+
+  public void swim(int idx) {
+    int child = idx, parent = child / 2;
+    while (parent > 0 && arr[parent] > arr[child]) {
+      int temp = arr[parent];
+      arr[parent] = arr[child];
+      arr[child] = temp;
+      child = parent;
+      parent = child / 2;}}
+
+  public void delete() {
+    int temp = arr[1];
+    arr[1] = arr[size];
+    arr[size] = temp;
+    size--;
+    sink(1);}
+
+  public void sink(int indx) {
+    int parent = indx;
+    while (2 * parent <= size) {
+      int left = 2 * parent, right = 2 * parent + 1, small = left;
+      if (right <= size && arr[right] < arr[left]) small = right;
+      if (arr[parent] > arr[small]) {
+        int temp = arr[parent];
+        arr[parent] = arr[small];
+        arr[small] = temp;
+        parent = small;}
+      else break;}}
+
+  public int extractMin() {
+    int min = arr[1];
+    delete();
+    return min;}
+
+  public int[] sort() {
+    int originalSize = size;
+    for (int i = size; i > 1; i--) {
+      int temp = arr[1];
+      arr[1] = arr[i];
+      arr[i] = temp;
+      size--;
+      sink(1);}
+    size = originalSize;
+    return arr;}
+
+  public int[] get() {
+    return arr;}}
+
+public class Main {
+  public static void main(String[] args) {
+    MinHeap minHeap1 = new MinHeap(14);
+    Integer[] givenArr = {null,50,40,55,87,120,28,9,300,26};
+    for (int i = 0; i < givenArr.length; i++) {
+      if (givenArr[i] != null) minHeap1.insert(givenArr[i]);
+    }
+    int[] a = minHeap1.get();
+    for (int i = 0; i < a.length; i++) {
+      System.out.print(a[i]+" ");
+    }
+    System.out.println();
+    minHeap1.sort();
+    for (int i = 0; i < a.length; i++) {
+      System.out.print(a[i]+" ");}}}
+
+//Task02
+public class MaxHeap {
+  private int[] arr;
+  private int size;
+  public MaxHeap(int capacity) {
+    arr = new int[capacity + 1];
+    size = 0;}
+  public void insert(int value) {
+    size++;
+    arr[size] = value;
+    swim(size);}
+  public void swim(int idx) {
+    int child = idx, parent = child / 2;
+    while (parent > 0 && arr[parent] < arr[child]) {
+      int temp = arr[parent];
+      arr[parent] = arr[child];
+      arr[child] = temp;
+      child = parent;
+      parent = child / 2;}}
+  public void delete() {
+    int temp = arr[1];
+    arr[1] = arr[size];
+    arr[size] = temp;
+    size--;
+    sink(1);}
+  public void sink(int indx) {
+    int parent = indx;
+    int left = 2 * parent, right = 2 * parent + 1, greater = 0;
+    if (right <= size) {
+      if (arr[left] > arr[right]) greater = left;
+      else greater = right;}
+    else if (left <= size) {greater = left;}
+    while (parent > 0 && greater <= size && arr[parent] < arr[greater]) {
+      int temp = arr[parent];
+      arr[parent] = arr[greater];
+      arr[greater] = temp;
+      parent = greater;
+      left = 2 * parent;
+      right = 2 * parent + 1;
+      if (right <= size) {
+        if (arr[left] > arr[right]) greater = left;
+        else greater = right;}
+      else if (left <= size) {greater = left;}
+      else break;}}
+  public int extractMax() {
+    int max = arr[1];
+    delete();
+    return max;}
+  public int[] sort() {
+    int originalSize = size;
+    for (int i = size; i > 1; i--) {
+      int temp = arr[1];
+      arr[1] = arr[i];
+      arr[i] = temp;
+      size--;
+      sink(1);}
+    size = originalSize;
+    return arr;}
+  public int[] get() {
+    return arr;}}
+
+public class Main {
+  public static void main(String[] args) {
+    MaxHeap maxHeap1 = new MaxHeap(12);
+    Integer[] givenArr = {null,50,40,55,87,120,28,9,300,26};
+    for (int i = 0; i < givenArr.length; i++) {
+      if (givenArr[i] != null) maxHeap1.insert(givenArr[i]);
+    }
+    int[] a = maxHeap1.get();
+    for (int i = 0; i < a.length; i++) {
+      System.out.print(a[i]+" ");
+    }
+    System.out.println();
+    System.out.println(maxHeap1.extractMax());
+    maxHeap1.sort();
+    for (int i = 0; i < a.length; i++) {
+      System.out.print(a[i]+" ");}}}
+
+//Task03
+public class Machine {
+  int load;
+  int index;
+  public Machine(int load, int index) {
+    this.load = load;
+    this.index = index;}}
+
+public class MinHeap {
+  Machine[] arr;
+  int size;
+  public MinHeap(int capacity) {
+    arr = new Machine[capacity + 1];
+    size = 0;}
+  public void re_insert(Machine value) {
+    arr[size + 1] = value;
+    size++;
+    swim(size);}
+  public void swim(int idx) {
+    int child = idx;
+    int parent = child / 2;
+    while (parent > 0 && arr[parent].load > arr[child].load) {
+      Machine temp = arr[parent];
+      arr[parent] = arr[child];
+      arr[child] = temp;
+      child = parent;
+      parent = child / 2;}}
+  public void delete() {
+    arr[1] = arr[size];
+    sink(1);
+    size--;}
+  public void sink(int indx) {
+    int parent = indx;
+    int left = 2 * parent;
+    int right = 2 * parent + 1;
+    int small;
+    if (left <= size && right <= size) {
+      if (arr[left].load < arr[right].load) {
+        small = left;
+      } else {
+        small = right;}}
+    else {
+      return;}
+    while (parent > 0 && small <= size && arr[parent].load > arr[small].load) {
+      Machine temp = arr[parent];
+      arr[parent] = arr[small];
+      arr[small] = temp;
+      parent = small;
+      left = 2 * parent;
+      right = 2 * parent + 1;
+
+      if (left <= size && right <= size) {
+        if (arr[left].load < arr[right].load) {
+          small = left;
+        } else {
+          small = right;}}
+      else {
+        break;}}}
+  public Machine extractMin() {
+    Machine min = arr[1];
+    delete();
+    return min;}}
+
+
+public class Main {
+  public static void main(String[] args) {
+    int[] tasks = {2, 4, 7, 1, 6};
+    int m = 4;
+    int[] machineLoads = new int[m];
+    MinHeap heap = new MinHeap(m);
+    for (int i = 0; i < m; i++) {
+      heap.re_insert(new Machine(0, i));}
+    for (int i = 0; i < tasks.length; i++) {
+      Machine min = heap.extractMin();
+      min.load += tasks[i];
+      machineLoads[min.index] = min.load;
+      heap.re_insert(min);}
+    for (int i = 0; i < m; i++) {
+      System.out.print(machineLoads[i] + " ");}}}
+
+
+//Task4
+class MaxHeap {
+  private int[] arr;
+  private int size;
+  MaxHeap(int capacity) {
+    arr = new int[capacity + 1];
+    size = 0;}
+  void insert(int value) {
+    arr[size + 1] = value;
+    swim(size + 1);
+    size++;}
+  void swim(int idx) {
+    int child = idx;
+    int parent = child / 2;
+    while (parent > 0 && arr[parent] < arr[child]) {
+      int temp = arr[parent];
+      arr[parent] = arr[child];
+      arr[child] = temp;
+      child = parent;
+      parent = child / 2;}}
+  void delete() {
+    int temp = arr[1];
+    arr[1] = arr[size];
+    arr[size] = temp;
+    size--;
+    sink(1);}
+  void sink(int idx) {
+    int parent = idx;
+    int left = 2 * parent;
+    int right = 2 * parent + 1;
+    int greater;
+    if (arr[left] > arr[right]) {
+      greater = left;}
+    else {
+      greater = right;}
+    while (parent > 0 && arr[parent] < arr[greater] && greater <= size) {
+      int temp = arr[parent];
+      arr[parent] = arr[greater];
+      arr[greater] = temp;
+      parent = greater;
+      left = 2 * parent;
+      right = 2 * parent + 1;
+      if (left <= size && arr[left] > arr[right]) {
+        greater = left;
+      } else if (right <= size && arr[right] > arr[left]) {
+        greater = right;}}}
+  int extractMax() {
+    int max = arr[1];
+    delete();
+    return max;}}
+
+
+class Main {
+  public static void main(String[] args) {
+    int[] nums = {0, 4, 10, 2, 8, 6, 7}; // 0 is placeholder for 1-based indexing
+    int k = 3;
+    MaxHeap maxHeap_2 = new MaxHeap(9);
+    for (int i = 0; i < nums.length; i++) {
+      if (i == 0) {
+        continue;
+      } else {
+        maxHeap_2.insert(nums[i]);}}
+    int[] result = new int[k];
+    for (int i = 0; i < k; i++) {
+      int top = maxHeap_2.extractMax();
+      result[i] = top;}
+    for (int i = 0; i < k; i++) {
+      System.out.print(result[i] + " ");}}}
+
+
+
+
+
+
 
