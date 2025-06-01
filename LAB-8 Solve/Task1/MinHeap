@@ -56,5 +56,6 @@ public class MinHeap {
     return arr;}
 
   public int[] get() {
-    return arr;}}
+    return arr;}
+}
 
